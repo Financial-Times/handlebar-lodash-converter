@@ -1,0 +1,19 @@
+{
+  "name": "handlebar-lodash-converter",
+  "version": "1.0.0",
+  "description": "converts handlebar to lodash syntax",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "lodash",
+    "handlebar",
+    "convert"
+  ],
+  "author": "art & dani",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0"
+  }
+}
