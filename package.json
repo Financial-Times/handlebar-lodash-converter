@@ -4,7 +4,7 @@
   "description": "converts handlebar to lodash syntax",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "./node_modules/.bin/mocha"
   },
   "keywords": [
     "lodash",
