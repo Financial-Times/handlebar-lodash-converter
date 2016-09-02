@@ -1,11 +1,11 @@
 const dataPrefix = '__DATA';
 const indexSuffix = '__IDX_';
 
-function generateVar(name) {
+const generateVar = function(name) {
   return `_${name}${indexSuffix}`.split('.').join('__');
 }
 
-function convertTokens(expr) {
+const convertTokens = function(expr) {
   const tokens = expr.match(/".+?"|'.+?'|[()]+|#?[\w\[\]\.]+|[!=<>]+/g);
   const convertedTokens = tokens.map(token => {
     switch (token) {
@@ -38,7 +38,7 @@ function convertTokens(expr) {
   return convertedTokens.join(' ');
 }
 
-function convertEachLoops(text) {
+const convertEachLoops = function(text) {
   const nestedNames = {};
   const blockRegex = /{{\s*?each\s+?.+?\s*?}} *\n?|{{.*?loop_vars\..+?.*?}}|{{.*?loop_index.*?}}/g;
   let match;
@@ -88,7 +88,7 @@ function convertEachLoops(text) {
   return text;
 }
 
-function convertExpressions(text) {
+const convertExpressions = function(text) {
   return text
     .replace(/{{\s*?if(\s+?.+?|\(.+?)}} *\n?/g, (matches, expr) => {
       return `<% if (${convertTokens(expr)}) { %>`;
