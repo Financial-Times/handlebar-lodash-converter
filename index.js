@@ -16,7 +16,7 @@ const convertTokens = function(expr) {
       case 'not':
         return '!';
       default: {
-        const lengthMatches = token.match(/(.*?)#(\w+)/);
+        const lengthMatches = token.match(/(.*?)#([\w\[\]\.]+)/);
         if (lengthMatches) { // if they are accessing .length on that variable
           const [, pre, matchedExpr] = lengthMatches;
           return `${pre}${dataPrefix}.${matchedExpr}.length`;
@@ -48,8 +48,8 @@ const convertEachLoops = function(text) {
   while ((match = blockRegex.exec(text)) !== null) {
     const matched = match[0];
     const eachMatch = matched.match(/{{\s*?each\s+?(.+?)\s*?}} *\n?/);
-    const loopvarMatch = matched.match(/{{(.*?)(loop_vars\.\w+)(.*?)}}/);
-    const loopIndexMatch = matched.match(/({{.*)loop_index(.*?}})/);
+    const loopMatch = matched.match(/{{(.*?)(loop_vars\.\w+)(.*?)}}|({{.*)loop_index(.*?}})/);
+    const loopRegex = /(loop_vars)\.(\w+)|(loop_index)/g;
 
     if (eachMatch) {
       const [, expr] = eachMatch;
@@ -71,18 +71,19 @@ const convertEachLoops = function(text) {
         // eslint-disable-next-line
         text = `${text.substring(0, match.index)}<% for (var ${childIndex} in ${exprTranslation}[${parentIndex}].${nestedProps.slice(1).join('.')}) { %>${text.substring(match.index + eachMatch[0].length)}`;
       }
-    } else if (loopvarMatch) {
-      const expr = loopvarMatch[2];
-      const nestedProps = expr.split('.').slice(1);
-      const exprKey = expr.split('.').slice(0, 2).join('.');
-      const childIndex = generateVar(nestedProps[nestedProps.length - 1]);
-      const exprTranslation = nestedNames[exprKey];
-      const isPrint = !/\s*/.exec(loopvarMatch[1]);
-      // eslint-disable-next-line
-      text = `${text.substring(0, match.index)}${isPrint ? '<%-' : '{{'}${loopvarMatch[1]}${exprTranslation}[${childIndex}]${loopvarMatch[3]}${isPrint ? '%>' : '}}'}${text.substring(match.index + loopvarMatch[0].length)}`;
-    } else if (loopIndexMatch) {
-      // eslint-disable-next-line
-      text = `${text.substring(0, match.index)}${loopIndexMatch[1]}${eachIndex}${loopIndexMatch[2]}${text.substring(match.index + loopIndexMatch[0].length)}`
+    } else if (loopMatch) {
+      const replacement = loopMatch[0].replace(loopRegex, (expr, isLoopVar, nestedProps, isLoopIndex = false) => {
+        if (!!isLoopVar) {
+          const exprKey = expr.split('.').slice(0, 2).join('.');
+          const childIndex = generateVar(nestedProps);
+          const exprTranslation = nestedNames[exprKey];
+          const isPrint = !/\s*/.exec(loopMatch[1]);
+          return `${isPrint ? '<%-' : ''}${exprTranslation}[${childIndex}]${isPrint ? '%>' : ''}`;
+        } else if (!!isLoopIndex) {
+          return eachIndex;
+        }
+      });
+      text = `${text.substring(0, match.index)}${replacement}${text.substring(match.index + loopMatch[0].length)}`;
     }
   }
   return text;

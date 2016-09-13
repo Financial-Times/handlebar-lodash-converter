@@ -30,5 +30,11 @@ module.exports = {
     "<%- __DATA.variable[_variable__IDX_].name %></a><% } %>",
   "{{each variable}} {{loop_index}} {{loop_index}} {{end}}":
     "<% for (var _variable__IDX_ in __DATA.variable) { %>" +
-    "<%- _variable__IDX_ %> <%- _variable__IDX_ %> <% } %>"
+  "<%- _variable__IDX_ %> <%- _variable__IDX_ %> <% } %>",
+  "{{each variable}}  {{if (loop_vars.variable.images) and (#loop_vars.variable.images)}} {{loop_vars.variable.images[0].url}} {{end}} {{end}}":
+  "<% for (var _variable__IDX_ in __DATA.variable) { %>" +
+  "<% if (( __DATA.variable[_variable__IDX_].images ) && ( __DATA.variable[_variable__IDX_].images.length )) { %>" +
+  "<%- __DATA.variable[_variable__IDX_].images[0].url %> " +
+  "<% } %>" +
+  "<% } %>"
 };
