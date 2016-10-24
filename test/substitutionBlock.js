@@ -14,16 +14,19 @@ module.exports = {
   '{{each variable}} {{loop_index}} {{end}}':
     '<% for (var _variable__IDX_ in __DATA.variable) { %>' +
     '<%- _variable__IDX_ %> <% } %>',
-  '{{each variable}} {{if loop_index == 1}} SOMETHING {{end}} {{end}}':
+  '{{each variable}} {{if loop_index === 1}} SOMETHING {{end}} {{end}}':
     '<% for (var _variable__IDX_ in __DATA.variable) { %>' +
-    '<% if (_variable__IDX_ == 1) { %>SOMETHING <% } %>' +
+    '<% if (_variable__IDX_ === 1) { %>SOMETHING <% } %>' +
     '<% } %>',
+  '{{{ x }}}': '<%= __DATA.x %>',
   '{{{ variable }}}': '<%= __DATA.variable %>',
   '{{{variable}}}': '<%= __DATA.variable %>',
   '{{each variable}}{{some[loop_index]}}{{end}}':
     '<% for (var _variable__IDX_ in __DATA.variable) { %>' +
     '<%- __DATA.some[_variable__IDX_] %>' +
     '<% } %>',
+  '{{if false === true}}': '<% if (false === true) { %>',
+  '{{if "false" === "true"}}': '<% if ("false" === "true") { %>',
   '{{each variable}} <a href={{loop_vars.variable.url}}>{{loop_vars.variable.name}}</a>{{end}}':
     '<% for (var _variable__IDX_ in __DATA.variable) { %>' +
     '<a href=<%- __DATA.variable[_variable__IDX_].url %>>' +
