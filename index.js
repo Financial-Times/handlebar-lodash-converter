@@ -4,9 +4,15 @@ const indexSuffix = '__IDX_';
 const generateVar = name => `_${name}${indexSuffix}`.split('.').join('__');
 
 const convertTokens = (expr) => {
-  const tokens = expr.match(/".+?"|'.+?'|[()]+|#?[\w\[\]\.]+|!=|[<>]|==/g);
+  const tokens = expr.match(/".+?"|'.+?'|[()]+|#?[\w\[\]\.]+|!=|[<>]=?|==|=|===/g);
   const convertedTokens = tokens.map((token) => {
     switch (token) {
+      case '=':
+      case '===':
+      case '!==':
+        throw new Error('Incorrect relational/logical operator used');
+      case '!=':
+        return '!==';
       case '==':
         return '===';
       case 'true':
