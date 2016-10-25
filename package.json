@@ -1,6 +1,6 @@
 {
   "name": "handlebar-lodash-converter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "converts handlebar to lodash syntax",
   "main": "index.js",
   "scripts": {

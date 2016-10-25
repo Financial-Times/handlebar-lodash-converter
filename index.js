@@ -4,9 +4,20 @@ const indexSuffix = '__IDX_';
 const generateVar = name => `_${name}${indexSuffix}`.split('.').join('__');
 
 const convertTokens = (expr) => {
-  const tokens = expr.match(/".+?"|'.+?'|[()]+|#?[\w\[\]\.]+|[!=<>]+/g);
+  const tokens = expr.match(/".+?"|'.+?'|[()]+|#?[\w\[\]\.]+|!=|[<>]=?|==|=|===/g);
   const convertedTokens = tokens.map((token) => {
     switch (token) {
+      case '=':
+      case '===':
+      case '!==':
+        throw new Error('Incorrect relational/logical operator used');
+      case '!=':
+        return '!==';
+      case '==':
+        return '===';
+      case 'true':
+      case 'false':
+        return token;
       case 'and':
         return '&&';
       case 'or':
@@ -20,7 +31,7 @@ const convertTokens = (expr) => {
           return `${pre}${dataPrefix}.${matchedExpr}.length`;
         }
 
-        const variableNameMatch = token.match(/^[a-z_]{1}[a-z0-9_\[\]\.]+$/i);
+        const variableNameMatch = token.match(/^[a-z_][a-z0-9_\[\]\.]*?$/i);
         if (variableNameMatch) { // if we think token is variable name
           const variableIndexMatch = token.match(/^_.+__IDX_.*$/);
           if (variableIndexMatch) { // if token is a loop_index all alone

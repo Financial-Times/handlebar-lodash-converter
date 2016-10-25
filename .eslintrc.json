@@ -10,6 +10,8 @@
         "mocha": true
     },
     "rules": {
-        "max-length": 0
+        "max-length": 0,
+        "comma-dangle": 0,
+        "no-unused-expressions": 0
     }
 }
