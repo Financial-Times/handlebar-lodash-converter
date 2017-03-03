@@ -12,6 +12,7 @@
     "rules": {
         "max-length": 0,
         "comma-dangle": 0,
-        "no-unused-expressions": 0
+        "no-unused-expressions": 0,
+        "no-useless-escape": 0
     }
 }
