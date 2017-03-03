@@ -99,9 +99,9 @@ const convertEachLoops = (text) => {
 };
 
 const convertExpressions = text => text
-    .replace(/{{\s*?if(\s+?.+?|\(.+?)}} *\n?/g, (matches, expr) => `<% if (${convertTokens(expr)}) { %>`)
+    .replace(/{{\s*?if(\s*?.*?|\(.*?)}} *\n?/g, (matches, expr) => `<% if (${convertTokens(expr)}) { %>`)
     .replace(/{{\s*?else\s*?}} *\n?/g, '<% } else { %>')
-    .replace(/{{\s*?elseif(\s+?.+?|\(.+?)}} *\n?/g, (matches, expr) => `<% } else if (${convertTokens(expr)}) { %>`)
+    .replace(/{{\s*?elseif(\s*?.*?|\(.*?)}} *\n?/g, (matches, expr) => `<% } else if (${convertTokens(expr)}) { %>`)
     .replace(/{{\s*?end\s*?}} *\n?/g, '<% } %>')
     .replace(/{{{\s*?(?!\s*if|else|each|elseif[\s\(}]+?)(.*?)}}}/g, (matches, expr) => `<%= ${convertTokens(expr)} %>`)
     .replace(/{{\s*?(?!\s*if|else|each|elseif[\s\(}]+?)(.*?)}}/g, (matches, expr) => `<%- ${convertTokens(expr)} %>`);
