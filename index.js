@@ -19,9 +19,9 @@ const convertTokens = (expr) => {
       case 'false':
         return token;
       case 'and':
-        return '&&';
+        return '&';
       case 'or':
-        return '||';
+        return '|';
       case 'not':
         return '!';
       default: {
@@ -44,6 +44,18 @@ const convertTokens = (expr) => {
       }
     }
   });
+  convertedTokens.forEach((tok, i) => {
+    if (tok.includes('.length') && i > 1) {
+      if (tok.includes(convertedTokens[i - 2])) {
+        if (convertedTokens[i - 1] === '&') {
+          convertedTokens[i - 1] = '&&';
+        } else {
+          convertedTokens[i - 1] = '||';
+        }
+      }
+    }
+  });
+
   return convertedTokens.join(' ');
 };
 
