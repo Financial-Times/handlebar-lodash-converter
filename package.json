@@ -1,19 +1,17 @@
 {
   "name": "handlebar-lodash-converter",
   "version": "1.0.8",
-  "description": "converts handlebar to lodash syntax",
+  "description": "Converts handlebars to lodash syntax",
   "main": "index.js",
-  "scripts": {
-    "test": "./node_modules/.bin/mocha && npm run eslint",
-    "eslint": "./node_modules/.bin/eslint ./",
-    "prepare": "snyk protect"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Financial-Times/handlebar-lodash-converter.git"
   },
-  "keywords": [
-    "lodash",
-    "handlebar",
-    "convert"
-  ],
-  "author": "art & dani",
+  "scripts": {
+    "eslint": "eslint ./",
+    "prepare": "snyk protect",
+    "test": "mocha && npm run eslint"
+  },
   "license": "MIT",
   "devDependencies": {
     "@financial-times/secret-squirrel": "^2.12.0",
