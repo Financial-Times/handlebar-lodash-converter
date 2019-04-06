@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha && npm run eslint",
-    "eslint": "./node_modules/.bin/eslint ./"
+    "eslint": "./node_modules/.bin/eslint ./",
+    "prepare": "snyk protect"
   },
   "keywords": [
     "lodash",
@@ -30,5 +31,8 @@
       "commit-msg": "secret-squirrel-commitmsg",
       "pre-commit": "secret-squirrel"
     }
+  },
+  "dependencies": {
+    "snyk": "^1.143.3"
   }
 }
